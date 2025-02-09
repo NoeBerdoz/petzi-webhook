@@ -1,0 +1,37 @@
+version: "3.9"
+volumes:
+  pg_data:
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      - SECRET_KEY=secret
+      - DB_HOST=db
+      - DB_USER=petzi
+      - DB_NAME=petzi
+      - DB_PASS=petzi
+      - DB_PORT=5432
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: always
+  db:
+    image: postgres:17
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_USER=petzi
+      - POSTGRES_PASSWORD=petzi
+      - POSTGRES_DB=petzi
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    restart: always
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "petzi" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
