@@ -4,16 +4,13 @@ import psycopg2
 
 class Database:
 
+    DB_PARAMS = None
     _instance = None
 
-    def __new__(cls, *args, **kwargs):
+    def __new__(cls):
         if cls._instance is None:
-            cls._instance = super(Database, cls).__new__(cls, *args, **kwargs)
-            return cls._instance
-
-
-    def __init__(self):
-        self.DB_PARAMS = {
+            cls._instance = super().__new__(cls)
+            cls.DB_PARAMS = {
             "dbname": os.getenv("DB_NAME", "petzi"),
             "user": os.getenv("DB_USER", "petzi"),
             "password": os.getenv("DB_PASS", "petzi"),
@@ -23,16 +20,18 @@ class Database:
             # "host": os.getenv("DB_HOST", "db"),
             "port": os.getenv("DB_PORT", "5433"),
         }
+        return cls._instance
 
 
-    def get_db_connection(self):
+    @staticmethod
+    def get_db_connection():
         """Returns a new database connection."""
-        return psycopg2.connect(**self.DB_PARAMS)
+        return psycopg2.connect(**Database.DB_PARAMS)
 
-
-    def create_tables(self):
+    @staticmethod
+    def create_tables():
         """Creates necessary tables if they do not exist."""
-        with self.get_db_connection() as conn:
+        with Database.get_db_connection() as conn:
             with conn.cursor() as cur:
                 cur.execute(
                     """

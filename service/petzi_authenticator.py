@@ -3,8 +3,6 @@ import hashlib
 
 from persistence.database import Database
 
-database = Database()
-
 class PetziAuthenticator:
 
     def __init__(self):
@@ -12,7 +10,7 @@ class PetziAuthenticator:
 
     def get_shared_secret(self):
         if self.shared_petzi_secret is None:
-            with database.get_db_connection() as conn:
+            with Database.get_db_connection() as conn:
                 with conn.cursor() as cur:
                     # Get secret
                     cur.execute(

@@ -4,10 +4,10 @@ from flask import jsonify
 from service.petzi_authenticator import PetziAuthenticator
 
 petzi_authenticator = PetziAuthenticator()
-database = Database()
+
 
 def is_existing_event(event_id):
-    with database.get_db_connection() as conn:
+    with Database.get_db_connection() as conn:
         with conn.cursor() as cur:
             cur.execute(
                 """
@@ -35,7 +35,7 @@ def insert_ticket(request):
     if not all([event_data, buyer_data, session_data, location_data, price_data]):
         return jsonify({"error": "Des données sont manquantes dans le message"}), 400
 
-    with database.get_db_connection() as conn:
+    with Database.get_db_connection() as conn:
         with conn.cursor() as cur:
             cur.execute("""
                    INSERT INTO buyers (role, first_name, last_name, postcode) 

@@ -6,11 +6,9 @@ from persistence.database import Database
 
 dashboard_blueprint = Blueprint('dashboard', __name__)
 
-database = Database
-
 @dashboard_blueprint.route('/dashboard')
 def load_table():
-    with database.get_db_connection() as conn:
+    with Database.get_db_connection() as conn:
         with conn.cursor(cursor_factory=psycopg2.extras.DictCursor) as cur:
 
             # Fetch buyers
