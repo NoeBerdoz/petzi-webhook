@@ -2,7 +2,7 @@ import math
 
 import psycopg2
 import psycopg2.extras
-from flask import render_template, Blueprint, request
+from flask import render_template, Blueprint, request, flash, redirect, url_for
 
 from persistence.database import Database
 from service.tickets import load_chart_data
@@ -127,3 +127,18 @@ def get_settings():
                 title="Settings",
                 data=settings,
             )
+
+@dashboard_blueprint.route('/settings', methods=['POST'])
+def update_settings():
+    with Database.get_db_connection() as conn:
+        with conn.cursor() as cur:
+            for name, new_value in request.form.items():
+                cur.execute("SELECT value FROM web_config WHERE name = %s", (name,))
+                current_value = cur.fetchone()
+
+                if current_value and current_value[0] != new_value:
+                    cur.execute("UPDATE web_config SET value = %s WHERE name = %s", (new_value, name))
+
+        conn.commit()
+
+    return redirect(url_for('dashboard.get_settings'))

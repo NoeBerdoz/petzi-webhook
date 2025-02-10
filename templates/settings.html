@@ -10,14 +10,24 @@
         </div>
     </div>
 
-    {% for row in data %}
-    <div class="row">
-        <div class="col-12"> {{ row["name"] }}
-                <label class="form-label">
-                    <input type="text" class="form-control" name="example-text-input" placeholder="{{ row.value }}" />
-                </label>
+    <form method="POST" action="{{ url_for('dashboard.update_settings') }}">
+        {% for row in data %}
+            <div class="row">
+                <div class="col-12">
+                    <label class="form-label">
+                        {{ row["name"] }}
+                        <input type="text" class="form-control" name="{{ row['name'] }}" value="{{ row['value'] }}"
+                               placeholder="{{ row['value'] }}"/>
+                    </label>
+                </div>
             </div>
-    </div>
-    {% endfor %}
+        {% endfor %}
+
+        <div class="row mt-3">
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">Sauvegarder</button>
+            </div>
+        </div>
+    </form>
 
 {% endblock %}
