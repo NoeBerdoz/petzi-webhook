@@ -73,4 +73,4 @@ def insert_ticket(request):
 
             conn.commit()
 
-    return jsonify({"message": "Données insérées avec succès"}), 201
+    return jsonify({"message": "Data insert successfully"}), 200
