@@ -1,5 +1,4 @@
 from flask import Blueprint, request
-from persistence.database import Database
 from service.petzi_webhook_handler import insert_ticket
 
 insert_blueprint = Blueprint('insert', __name__)
