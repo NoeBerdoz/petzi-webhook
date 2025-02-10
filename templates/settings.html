@@ -10,7 +10,7 @@
         </div>
     </div>
 
-    <form method="POST" action="{{ url_for('dashboard.update_settings') }}">
+    <form id="settings-form" method="POST" action="{{ url_for('dashboard.update_settings') }}">
         {% for row in data %}
             <div class="row">
                 <div class="col-12">
@@ -29,5 +29,63 @@
             </div>
         </div>
     </form>
+
+    <div class="row mt-3">
+        <!-- Success Message -->
+        <div id="success-message" class="alert alert-important alert-success alert-dismissible fade show" role="alert"
+             style="display: none">
+        </div>
+        <!-- Failure message -->
+        <div id="error-message" class="alert alert-important alert-danger alert-dismissible fade show" role="alert"
+
+             style="display: none">
+        </div>
+    </div>
+
+
+    <script>
+        /* Success/Error message logic made in a fast and dirty way */
+        document.getElementById("settings-form").addEventListener("submit", function (event) {
+            event.preventDefault();  // Prevent normal form submission
+
+            let formData = new FormData(this);
+
+            fetch(this.action, {
+                method: "POST",
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    let successDiv = document.getElementById("success-message");
+                    let errorDiv = document.getElementById("error-message");
+
+                    if (data.success) {
+                        document.getElementById("success-message").textContent = data.message;
+                        successDiv.style.display = "block";
+                        errorDiv.style.display = "none"; // Hide error message
+
+                        // Fade out after 5 seconds
+                        setTimeout(() => {
+                            errorDiv.style.display = "none";
+                            successDiv.style.transition = "opacity 1s";
+                            successDiv.style.opacity = "0";
+                            setTimeout(() => successDiv.style.display = "none", 1000);
+                        }, 2000);
+                        successDiv.style.opacity = "1";
+                    } else {
+                        document.getElementById("error-message").textContent = data.message;
+                        errorDiv.style.display = "block";
+                        successDiv.style.display = "none"; // Hide success message
+                        // Fade out after 5 seconds
+                        setTimeout(() => {
+                            errorDiv.style.transition = "opacity 1s";
+                            errorDiv.style.opacity = "0";
+                            setTimeout(() => errorDiv.style.display = "none", 1000);
+                        }, 2000);
+                        errorDiv.style.opacity = "1";
+                    }
+                });
+        });
+    </script>
 
 {% endblock %}

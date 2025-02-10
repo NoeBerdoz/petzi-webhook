@@ -2,7 +2,7 @@ import math
 
 import psycopg2
 import psycopg2.extras
-from flask import render_template, Blueprint, request, flash, redirect, url_for
+from flask import render_template, Blueprint, request, redirect, url_for, jsonify
 
 from persistence.database import Database
 from service.tickets import load_chart_data
@@ -71,6 +71,7 @@ def get_tickets():
                 chart_sales=chart_data["sales"],
             )
 
+
 @dashboard_blueprint.route('/events')
 def get_events():
     with Database.get_db_connection() as conn:
@@ -111,6 +112,7 @@ def get_events():
                 chart_sales=chart_data["sales"],
             )
 
+
 @dashboard_blueprint.route('/settings')
 def get_settings():
     with Database.get_db_connection() as conn:
@@ -128,8 +130,10 @@ def get_settings():
                 data=settings,
             )
 
+
 @dashboard_blueprint.route('/settings', methods=['POST'])
 def update_settings():
+    updated = False
     with Database.get_db_connection() as conn:
         with conn.cursor() as cur:
             for name, new_value in request.form.items():
@@ -138,7 +142,13 @@ def update_settings():
 
                 if current_value and current_value[0] != new_value:
                     cur.execute("UPDATE web_config SET value = %s WHERE name = %s", (new_value, name))
+                    updated = True
 
         conn.commit()
+
+    if updated:
+        return jsonify({"success": True, "message": "Settings updated successfully!"})
+    else:
+        return jsonify({"success": False, "message": "No changes were made."})
 
     return redirect(url_for('dashboard.get_settings'))
