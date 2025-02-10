@@ -9,7 +9,7 @@ dashboard_blueprint = Blueprint('dashboard', __name__, url_prefix='/dashboard')
 
 
 @dashboard_blueprint.route('/home')
-def load_table():
+def get_home():
     with Database.get_db_connection() as conn:
         with conn.cursor(cursor_factory=psycopg2.extras.DictCursor) as cur:
             # Fetch buyers
