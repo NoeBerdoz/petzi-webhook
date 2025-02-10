@@ -6,11 +6,11 @@ from persistence.database import Database
 
 dashboard_blueprint = Blueprint('dashboard', __name__, url_prefix='/dashboard')
 
+
 @dashboard_blueprint.route('/home')
 def load_table():
     with Database.get_db_connection() as conn:
         with conn.cursor(cursor_factory=psycopg2.extras.DictCursor) as cur:
-
             # Fetch buyers
             cur.execute(
                 """
@@ -31,6 +31,20 @@ def load_table():
                 buyer_tickets = [t for t in tickets if t["buyer_id"] == buyer["id"]]
                 data.append({"buyer": buyer, "tickets": buyer_tickets})
 
-
-
     return render_template('home.html', data=data, title="My Dashboard")
+
+
+@dashboard_blueprint.route('/tickets')
+def get_tickets():
+    with Database.get_db_connection() as conn:
+        with conn.cursor(cursor_factory=psycopg2.extras.DictCursor) as cur:
+            cur.execute(
+                """
+                    SELECT t.id, e.name AS event_name, generated_at, price_amount, buyer_id, promoter, cancellation_reason, price_currency, number, type, title, category
+                    FROM tickets t
+                    INNER JOIN events e ON e.event_id = t.event_id;
+                """
+            )
+            tickets = [dict(row) for row in cur.fetchall()]
+
+            return render_template('tickets.html', data=tickets, title="Tickets")
