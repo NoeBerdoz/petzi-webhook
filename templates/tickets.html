@@ -9,26 +9,28 @@
             <h1>Welcome to {{ title }}</h1>
         </div>
     </div>
+
     <div class="row">
-        <div class="table table-responsive">
-            <table class="table table-vcenter">
-                <thead>
+        <div class="col-12">
+            <table class="table">
+                <thead class="sticky-top">
                 <tr>
-                    <th>Identifiant</th>
-                    <th>Titre</th>
-                    <th>Événement</th>
-                    <th>Prix</th>
-                    <th>Type</th>
-                    <th>Catégorie</th>
-                    <th>Source</th>
-                    <th>Date de création</th>
-                    <th>Raison d'annulation</th>
+                    <th scope="col">#</th>
+                    <th scope="col">Identifiant</th>
+                    <th scope="col">Titre</th>
+                    <th scope="col">Événement</th>
+                    <th scope="col">Prix</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Catégorie</th>
+                    <th scope="col">Source</th>
+                    <th scope="col">Date de création</th>
+                    <th scope="col">Raison d'annulation</th>
                 </tr>
                 </thead>
                 <tbody>
                 {% for row in data %}
                     <tr>
-                        <td>{{ row["number"] }}</td>
+                        <th scope="row">{{ row["id"] }}</th>
                         <td>{{ row["title"] }}</td>
                         <td>{{ row["event_name"] }}</td>
                         <td>{{ row["price_amount"] }} {{ row["price_currency"] }}</td>
@@ -61,20 +63,20 @@
     </div>
     <script>
         var options = {
-          chart: {
-            type: 'line'
-          },
-          series: [{
-            name: 'sales',
-            data: {{ chart_sales|tojson }}
-          }],
-          xaxis: {
-            categories: {{ chart_categories|tojson }}
-          }
+            chart: {
+                type: 'line'
+            },
+            series: [{
+                name: 'sales',
+                data: {{ chart_sales|tojson }}
+            }],
+            xaxis: {
+                categories: {{ chart_categories|tojson }}
+            }
         }
 
         var chart = new ApexCharts(document.querySelector("#chart"), options);
 
         chart.render();
-        </script>
+    </script>
 {% endblock %}
