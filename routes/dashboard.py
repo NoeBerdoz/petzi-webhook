@@ -110,3 +110,20 @@ def get_events():
                 chart_categories=chart_data["categories"],
                 chart_sales=chart_data["sales"],
             )
+
+@dashboard_blueprint.route('/settings')
+def get_settings():
+    with Database.get_db_connection() as conn:
+        with conn.cursor(cursor_factory=psycopg2.extras.DictCursor) as cur:
+            cur.execute(
+                """
+                    SELECT name, value FROM web_config;
+                """
+            )
+            settings = [dict(row) for row in cur.fetchall()]
+
+            return render_template(
+                'settings.html',
+                title="Settings",
+                data=settings,
+            )

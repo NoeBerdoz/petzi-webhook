@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-12">
+            <h1>Welcome to {{ title }}</h1>
+        </div>
+    </div>
+
+    {% for row in data %}
+    <div class="row">
+        <div class="col-12"> {{ row["name"] }}
+                <label class="form-label">
+                    <input type="text" class="form-control" name="example-text-input" placeholder="{{ row.value }}" />
+                </label>
+            </div>
+    </div>
+    {% endfor %}
+
+{% endblock %}
