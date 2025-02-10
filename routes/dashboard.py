@@ -4,9 +4,9 @@ from flask import render_template, Blueprint
 
 from persistence.database import Database
 
-dashboard_blueprint = Blueprint('dashboard', __name__)
+dashboard_blueprint = Blueprint('dashboard', __name__, url_prefix='/dashboard')
 
-@dashboard_blueprint.route('/dashboard')
+@dashboard_blueprint.route('/home')
 def load_table():
     with Database.get_db_connection() as conn:
         with conn.cursor(cursor_factory=psycopg2.extras.DictCursor) as cur:
@@ -33,4 +33,4 @@ def load_table():
 
 
 
-    return render_template('dashboard.html', data=data, title="My Dashboard")
+    return render_template('home.html', data=data, title="My Dashboard")
