@@ -16,29 +16,18 @@
                 <thead class="sticky-top">
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Identifiant</th>
-                    <th scope="col">Titre</th>
-                    <th scope="col">Événement</th>
-                    <th scope="col">Prix</th>
-                    <th scope="col">Type</th>
-                    <th scope="col">Catégorie</th>
-                    <th scope="col">Source</th>
-                    <th scope="col">Date de création</th>
-                    <th scope="col">Raison d'annulation</th>
+                    <th scope="col">Identifiant Petzi</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Nbr tickets vendu</th>
                 </tr>
                 </thead>
                 <tbody>
                 {% for row in data %}
                     <tr>
                         <th scope="row">{{ row["id"] }}</th>
-                        <td>{{ row["title"] }}</td>
-                        <td>{{ row["event_name"] }}</td>
-                        <td>{{ row["price_amount"] }} {{ row["price_currency"] }}</td>
-                        <td>{{ row["type"] }}</td>
-                        <td>{{ row["category"] }}</td>
-                        <td>{{ row["promoter"] }}</td>
-                        <td>{{ row["generated_at"] }}</td>
-                        <td>{{ row["cancellation_reason"] }}</td>
+                        <td>{{ row["event_id"] }}</td>
+                        <td>{{ row["name"] }}</td>
+                        <td>{{ row["ticket_count"] }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>
@@ -77,38 +66,4 @@
         </li>
     </ul>
 
-    <div class="row">
-        <div class="card">
-            <div class="card-body">
-                <div id="chart" class="chart-lg"></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- TODO Faire un graphe de progression, pas de retour à 0, mais reprendre le nombre de ticket vendu à chaque fois  -->
-    <div class="row">
-        <div class="card">
-            <div class="card-body">
-                <div id="chart-demo-line" class="chart-lg"></div>
-            </div>
-        </div>
-    </div>
-    <script>
-        var options = {
-            chart: {
-                type: 'line'
-            },
-            series: [{
-                name: 'sales',
-                data: {{ chart_sales|tojson }}
-            }],
-            xaxis: {
-                categories: {{ chart_categories|tojson }}
-            }
-        }
-
-        var chart = new ApexCharts(document.querySelector("#chart"), options);
-
-        chart.render();
-    </script>
 {% endblock %}
