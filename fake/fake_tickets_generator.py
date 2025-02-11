@@ -21,7 +21,7 @@ def make_post_request(url, data, secret):
         response = requests.post(url, data=data.encode('utf-8'), headers=make_header(data, secret))
 
         if response.status_code == 200:
-            print(f"Request successful. Response: {response.text}")
+            print(f"[+] Request successful. Response: {response.text}")
         else:
             print(f"Request failed with status code {response.status_code}.")
     except Exception as e:
@@ -35,13 +35,17 @@ def random_date(start_date, end_date):
 
 def generate_dummy_tickets(num_tickets=100):
     """Generate a list of dummy ticket data."""
-    events = ["Concert", "Festival", "Theater Show", "Comedy Night", "Sports Game"]
+    events = [
+        "WALTER ASTRAL + FOREST LAW", "SUBLIMINAL X BODY DANCE SYNTH MUSIC", "A.K.A IDIOTS FIRST SHOW",
+        "RUE OBERKAMPF + POTOCHKINE", "BSA SOUNDSYSTEM: INVASION TEKNO",
+        "CIGARETTE CITY ALLSTARZ", "A TABLE",  "10 ANS DU LABEL ASTROPOLIS", "VALENTINO VIVACE + LOLA BASTARD"
+    ]
     # Create a mapping from event names to event IDs
     event_id_mapping = {event: random.randint(1000, 99999) for event in events}
 
     locations = [
         {"name": "Case a Chocs", "street": "Quai Philipe Godet 20", "city": "Neuchatel", "postcode": "2000"},
-        {"name": "Hall 7", "street": "Avenue des Champs", "city": "Geneva", "postcode": "1200"},
+        {"name": "Hall 7", "street": "Avenue des Champs", "city": "Neuchatel", "postcode": "1200"},
         {"name": "Arena", "street": "Rue de la Musique 3", "city": "Lausanne", "postcode": "1000"},
     ]
     ticket_types = ["online_presale", "at_door", "vip", "early_bird"]
@@ -49,7 +53,7 @@ def generate_dummy_tickets(num_tickets=100):
     promoters = ["Case à Chocs", "Live Nation", "EventBrite", "Swiss Events"]
 
     start_date = datetime(2023, 1, 1)
-    end_date = datetime(2024, 12, 31)
+    end_date = datetime(2025, 2, 13)
 
     tickets = []
 
@@ -99,13 +103,15 @@ def generate_dummy_tickets(num_tickets=100):
     return tickets
 
 
-# Generate 200 dummy tickets and save to a file
-dummy_tickets = generate_dummy_tickets(200)
+num_tickets = 1000
+dummy_tickets = generate_dummy_tickets(num_tickets)
 
+counter = 0
 for dummy_ticket in dummy_tickets:
+    counter += 1
+    print("[+] TICKET " + str(counter) + " / " + str(num_tickets))
     url = "http://localhost:5000/insert"
     secret = "coucou"
     data = json.dumps(dummy_ticket, indent=4)
     # Make the POST request
     make_post_request(url, data, secret)
-
