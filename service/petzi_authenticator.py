@@ -47,7 +47,6 @@ class PetziAuthenticator:
         # Recompute the signature
         body = request.get_data(as_text=True)
         body_to_sign = f'{timestamp}.{body}'.encode()
-        # Code smell here with SHARED_PETZI_SECRET that can be None with the bad logic implemented
         computed_signature = hmac.new(self.shared_petzi_secret.encode(), body_to_sign, hashlib.sha256).hexdigest()
 
         # Compare the signatures

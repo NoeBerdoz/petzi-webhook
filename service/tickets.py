@@ -3,7 +3,7 @@ from collections import defaultdict
 from persistence.database import Database
 
 
-def load_chart_data():
+def load_ticket_chart_data():
     with Database.get_db_connection() as conn:
         with conn.cursor() as cur:
             # Fetch ticket sales per month
