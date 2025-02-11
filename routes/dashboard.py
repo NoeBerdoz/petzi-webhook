@@ -109,7 +109,7 @@ def get_settings():
 
             return render_template(
                 'settings.html',
-                title="Settings",
+                title="Paramètres",
                 data=settings,
             )
 
