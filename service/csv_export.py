@@ -4,8 +4,8 @@ import io
 from persistence.database import Database
 
 
-def export_table_to_csv():
-    """Fetch table data and return as CSV string."""
+def export_tables_to_csv(event_id):
+    """Fetch tables data based on the event_id and return as CSV string."""
 
     # Define the SQL query to join all tables
     query = """
@@ -38,13 +38,14 @@ def export_table_to_csv():
         INNER JOIN events e ON t.event_id = e.event_id
         INNER JOIN sessions s ON t.id = s.ticket_id
         INNER JOIN locations l ON s.location_id = l.id
+        WHERE e.event_id = %s
         """
 
     # Connect to the database
     with Database.get_db_connection() as conn:
         with conn.cursor() as cur:
             # Execute the query
-            cur.execute(query)
+            cur.execute(query, (event_id,))
             rows = cur.fetchall()
 
             column_names = [desc[0] for desc in cur.description]

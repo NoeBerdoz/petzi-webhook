@@ -1,7 +1,7 @@
 from flask import Blueprint, request, Response, jsonify
 
 from persistence.database import Database
-from service.csv_export import export_table_to_csv
+from service.csv_export import export_tables_to_csv
 from service.petzi_webhook_handler import insert_ticket
 
 api_blueprint = Blueprint('api', __name__)
@@ -13,12 +13,18 @@ def insert_message():
 
 @api_blueprint.route('/download_csv')
 def download_db_csv():
-    csv = export_table_to_csv()
+    # query parameter in the URL, e.g., /download_csv?event_id=123.
+    event_id = request.args.get('event_id')
+
+    if not event_id or not event_id.isdigit():
+        return Response(status=400)
+
+    csv = export_tables_to_csv(event_id)
 
     return Response(
         csv,
         mimetype="text/csv",
-        headers={"Content-Disposition": "attachment; filename=petzi-webhook-export.csv"}
+        headers={"Content-Disposition": f"attachment; filename=event_{event_id}_export.csv"}
     )
 
 ###############################################################################
