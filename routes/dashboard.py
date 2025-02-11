@@ -5,7 +5,7 @@ import psycopg2.extras
 from flask import render_template, Blueprint, request, redirect, url_for, jsonify
 
 from persistence.database import Database
-from service.tickets import load_ticket_chart_data
+from service.charts import load_ticket_chart_data
 
 dashboard_blueprint = Blueprint('dashboard', __name__, url_prefix='/dashboard')
 

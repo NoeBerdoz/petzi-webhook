@@ -85,14 +85,6 @@
         </div>
     </div>
 
-    <!-- TODO Faire un graphe de progression, pas de retour à 0, mais reprendre le nombre de ticket vendu à chaque fois  -->
-    <div class="row">
-        <div class="card">
-            <div class="card-body">
-                <div id="chart-demo-line" class="chart-lg"></div>
-            </div>
-        </div>
-    </div>
     <script>
         var options = {
             chart: {
@@ -106,9 +98,7 @@
                 categories: {{ chart_categories|tojson }}
             }
         }
-
         var chart = new ApexCharts(document.querySelector("#chart"), options);
-
         chart.render();
     </script>
 {% endblock %}
