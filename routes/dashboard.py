@@ -28,7 +28,8 @@ def get_tickets():
                 """
                     SELECT t.id, e.name AS event_name, generated_at, price_amount, buyer_id, promoter, cancellation_reason, price_currency, number, type, title, category
                     FROM tickets t
-                    INNER JOIN events e ON e.event_id = t.event_id;
+                    INNER JOIN events e ON e.event_id = t.event_id
+                    ORDER BY t.generated_at DESC;
                 """
             )
             tickets = [dict(row) for row in cur.fetchall()]
@@ -69,7 +70,7 @@ def get_events():
                     FROM events e
                     LEFT JOIN tickets t ON e.event_id = t.event_id
                     GROUP BY e.id, e.event_id, e.name
-                    order by e.id;
+                    ORDER BY e.id DESC;
                 """
             )
             events = [dict(row) for row in cur.fetchall()]
