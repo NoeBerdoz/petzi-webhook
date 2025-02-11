@@ -36,6 +36,9 @@ def random_date(start_date, end_date):
 def generate_dummy_tickets(num_tickets=100):
     """Generate a list of dummy ticket data."""
     events = ["Concert", "Festival", "Theater Show", "Comedy Night", "Sports Game"]
+    # Create a mapping from event names to event IDs
+    event_id_mapping = {event: random.randint(1000, 99999) for event in events}
+
     locations = [
         {"name": "Case a Chocs", "street": "Quai Philipe Godet 20", "city": "Neuchatel", "postcode": "2000"},
         {"name": "Hall 7", "street": "Avenue des Champs", "city": "Geneva", "postcode": "1200"},
@@ -64,7 +67,7 @@ def generate_dummy_tickets(num_tickets=100):
                     "type": random.choice(ticket_types),
                     "title": event,
                     "category": random.choice(categories),
-                    "eventId": random.randint(1000, 99999),
+                    "eventId": event_id_mapping[event],
                     "event": event,
                     "cancellationReason": "",
                     "generatedAt": generated_at,
