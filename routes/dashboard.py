@@ -83,16 +83,13 @@ def get_events():
 
             paginated_data = events[start:end]
 
-            chart_data = load_ticket_chart_data()
-
             return render_template(
                 'events.html',
                 title="Events",
                 data=paginated_data,
+                events=events,
                 page=page,
                 total_pages=total_pages,
-                chart_categories=chart_data["categories"],
-                chart_sales=chart_data["sales"],
             )
 
 

@@ -1,8 +1,7 @@
-from collections import defaultdict
-
 from persistence.database import Database
 
-
+# TODO make this load only the last few days data
+# to avoid performance issue
 def load_ticket_chart_data():
     with Database.get_db_connection() as conn:
         with conn.cursor() as cur:

@@ -66,4 +66,86 @@
         </li>
     </ul>
 
+    <!-- Event Selection Dropdown -->
+    <div class="row">
+        <div class="col-12">
+            <label class="form-label" for="event-search">Choisir un événement :</label>
+            <input type="text" class="form-control" id="event-search" list="event-list"
+                   placeholder="Nom de l'événement..."/>
+            <datalist id="event-list">
+                {% for event in events %}
+                    <option value="{{ event.event_id }}">{{ event.name }}</option>
+                {% endfor %}
+            </datalist>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <button id="apply-filter" class="btn btn-primary mt-2 w-100">Analyser l'arrivée des tickets</button>
+
+        </div>
+    </div>
+
+    <!-- Chart (Initially Hidden) -->
+    <div class="row" id="chart-container" style="display: none;">
+        <div class="card">
+            <div class="card-body">
+                <div id="chart" class="chart-lg"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let chart = null; // Initialize chart variable
+
+        // Function to fetch data and update the chart
+        function updateChart(eventId) {
+            fetch(`/chart/tickets/${eventId}`)  // Use the API route to fetch filtered data
+                .then(response => response.json())
+                .then(data => {
+                    // Show the chart container
+                    document.getElementById('chart-container').style.display = 'block';
+
+                    // Initialize or update the chart
+                    if (chart) {
+                        // Update the chart if it already exists
+                        chart.updateOptions({
+                            series: [{
+                                name: 'sales',
+                                data: data.sales
+                            }],
+                            xaxis: {
+                                categories: data.categories
+                            }
+                        });
+                    } else {
+                        // Initialize the chart if it doesn't exist
+                        var options = {
+                            chart: {
+                                type: 'line'
+                            },
+                            series: [{
+                                name: 'sales',
+                                data: data.sales
+                            }],
+                            xaxis: {
+                                categories: data.categories
+                            }
+                        };
+                        chart = new ApexCharts(document.querySelector("#chart"), options);
+                        chart.render();
+                    }
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        }
+
+        // Event listener for the "Apply Filter" button
+        document.getElementById('apply-filter').addEventListener('click', function () {
+            const selectedEventId = document.getElementById('event-search').value;
+            if (selectedEventId) {
+                updateChart(selectedEventId);
+            }
+        });
+    </script>
+
 {% endblock %}

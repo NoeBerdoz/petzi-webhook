@@ -10,6 +10,40 @@ api_blueprint = Blueprint('api', __name__)
 def insert_message():
     return insert_ticket(request)
 
+@api_blueprint.route('/chart/tickets/<int:event_id>', methods=['GET'])
+def get_tickets_by_event(event_id):
+    """ Returns data in a format for an apexchart.js component """
+    # TODO Handle SQL injection security issue
+    with Database.get_db_connection() as conn:
+        with conn.cursor() as cur:
+            # Fetch ticket data for the selected event
+            query = """
+                SELECT 
+                    DATE_TRUNC('hour', generated_at) AS timestamp,
+                    COUNT(id) AS sales_count
+                FROM tickets
+                WHERE event_id = %s
+                GROUP BY timestamp
+                ORDER BY timestamp;
+            """
+            cur.execute(query, (event_id,))
+            rows = cur.fetchall()
+
+            # Format the data for the chart
+            sales_data = []
+            categories = []
+            cumulative_sales = 0
+
+            for row in rows:
+                timestamp = row[0]  # Get the full datetime
+                formatted_date = timestamp.strftime("%d.%m %H:00")
+
+                cumulative_sales += row[1]  # Add sales count to cumulative total
+                sales_data.append(cumulative_sales)
+                categories.append(formatted_date)
+
+            return jsonify({"categories": categories, "sales": sales_data})
+
 
 @api_blueprint.route('/download_csv')
 def download_db_csv():
@@ -26,6 +60,8 @@ def download_db_csv():
         mimetype="text/csv",
         headers={"Content-Disposition": f"attachment; filename=event_{event_id}_export.csv"}
     )
+
+
 
 ###############################################################################
 #                               GET API ROUTES                                #
@@ -62,13 +98,17 @@ def get_sessions():
     return fetch_table_data(query)
 
 
-def fetch_table_data(query):
+def fetch_table_data(query, params=None):
     """Fetch data from the database and return as JSON."""
     try:
         with Database.get_db_connection() as conn:
             with conn.cursor() as cur:
-                # Execute the query
-                cur.execute(query)
+                # Execute the query with or without parameters
+                if params:
+                    cur.execute(query, params)
+                else:
+                    cur.execute(query)
+
                 rows = cur.fetchall()
 
                 # Get column names
