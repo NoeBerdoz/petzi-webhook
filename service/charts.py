@@ -1,7 +1,6 @@
 from persistence.database import Database
 
-# Ugly 3 days... rushing
-def load_last_3_days_ticket_chart_data():
+def load_last_days_ticket_chart_data(days=7):
     with Database.get_db_connection() as conn:
         with conn.cursor() as cur:
             # Fetch ticket sales per month
@@ -10,10 +9,10 @@ def load_last_3_days_ticket_chart_data():
                     DATE_TRUNC('hour', generated_at) AS timestamp,  -- Get full date with hour precision
                     COUNT(id) AS sales_count
                 FROM tickets
-                WHERE generated_at >= CURRENT_DATE - INTERVAL '3 days'  -- Filter tickets from the last 3 days
+                WHERE generated_at >= CURRENT_DATE - INTERVAL %s  -- Filter tickets from the last days
                 GROUP BY timestamp
                 ORDER BY timestamp;
-            """)
+            """, (f"{days} days",))
             result = cur.fetchall()
 
             sales_data = []
