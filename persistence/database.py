@@ -93,6 +93,18 @@ class Database:
                         name VARCHAR(255) NOT NULL,
                         value VARCHAR(255) NOT NULL
                     );
-    
+                    
                 """)
+
+                # Insert initial web config dummy data if the table is empty
+                cur.execute("SELECT COUNT(*) FROM web_config;")
+                if cur.fetchone()[0] == 0:
+                    cur.execute(
+                        """
+                        INSERT INTO web_config (name, value)
+                        VALUES (%s, %s);
+                        """,
+                        ("shared_petzi_secret", "change-moi!")
+                    )
+
                 conn.commit()
