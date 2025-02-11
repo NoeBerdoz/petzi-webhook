@@ -31,6 +31,7 @@
                 {% for row in data %}
                     <tr>
                         <th scope="row">{{ row["id"] }}</th>
+                        <td>{{ row["number"] }}</td>
                         <td>{{ row["title"] }}</td>
                         <td>{{ row["event_name"] }}</td>
                         <td>{{ row["price_amount"] }} {{ row["price_currency"] }}</td>
