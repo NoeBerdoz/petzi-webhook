@@ -5,7 +5,7 @@ import psycopg2.extras
 from flask import render_template, Blueprint, request, redirect, url_for, jsonify
 
 from persistence.database import Database
-from service.charts import load_ticket_chart_data
+from service.charts import load_last_3_days_ticket_chart_data
 
 dashboard_blueprint = Blueprint('dashboard', __name__, url_prefix='/dashboard')
 
@@ -42,7 +42,7 @@ def get_tickets():
 
             paginated_data = tickets[start:end]
 
-            chart_data = load_ticket_chart_data()
+            chart_data = load_last_3_days_ticket_chart_data()
 
             return render_template(
                 'tickets.html',
