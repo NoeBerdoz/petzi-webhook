@@ -74,7 +74,7 @@ def change_password():
 
         # Check if new passwords match
         if new_password != confirm_new_password:
-            flash('New passwords do not match.', 'error')
+            flash('Les mots de passe ne correspondent pas', 'error')
             return redirect(url_for('auth.change_password'))
 
         # Fetch the current user's data
