@@ -1,3 +1,13 @@
+#
+# This script insert dummy data for testing purposes
+# You can configure the date range of the ticket
+#       start_date = datetime(2025, 2, 1)
+#       end_date = datetime(2025, 2, 13)
+# You can choose the number of tickets to create
+#       num_tickets = 3000
+# Don't forget to set the correct petzi secret shared with the server
+#       secret = "coucou"
+#
 import hmac
 import requests
 import json
@@ -52,7 +62,7 @@ def generate_dummy_tickets(num_tickets=100):
     categories = ["Standard", "VIP", "Prelocation", "Group"]
     promoters = ["Case à Chocs", "Live Nation", "EventBrite", "Swiss Events"]
 
-    start_date = datetime(2023, 1, 1)
+    start_date = datetime(2025, 2, 1)
     end_date = datetime(2025, 2, 13)
 
     tickets = []
@@ -103,7 +113,7 @@ def generate_dummy_tickets(num_tickets=100):
     return tickets
 
 
-num_tickets = 1000
+num_tickets = 3000
 dummy_tickets = generate_dummy_tickets(num_tickets)
 
 counter = 0
