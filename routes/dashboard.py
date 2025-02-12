@@ -5,12 +5,14 @@ import psycopg2.extras
 from flask import render_template, Blueprint, request, redirect, url_for, jsonify
 
 from persistence.database import Database
+from routes.auth import login_required
 from service.charts import load_last_days_ticket_chart_data
 
 dashboard_blueprint = Blueprint('dashboard', __name__, url_prefix='/dashboard')
 
 
 @dashboard_blueprint.route('/home')
+@login_required
 def get_home():
     with Database.get_db_connection() as conn:
         with conn.cursor(cursor_factory=psycopg2.extras.DictCursor) as cur:
@@ -21,6 +23,7 @@ def get_home():
 
 
 @dashboard_blueprint.route('/tickets')
+@login_required
 def get_tickets():
     with Database.get_db_connection() as conn:
         with conn.cursor(cursor_factory=psycopg2.extras.DictCursor) as cur:
@@ -57,6 +60,7 @@ def get_tickets():
 
 
 @dashboard_blueprint.route('/events')
+@login_required
 def get_events():
     with Database.get_db_connection() as conn:
         with conn.cursor(cursor_factory=psycopg2.extras.DictCursor) as cur:
@@ -95,6 +99,7 @@ def get_events():
 
 
 @dashboard_blueprint.route('/settings')
+@login_required
 def get_settings():
     with Database.get_db_connection() as conn:
         with conn.cursor(cursor_factory=psycopg2.extras.DictCursor) as cur:
@@ -113,6 +118,7 @@ def get_settings():
 
 
 @dashboard_blueprint.route('/settings', methods=['POST'])
+@login_required
 def update_settings():
     updated = False
     with Database.get_db_connection() as conn:
