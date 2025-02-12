@@ -1,19 +1,6 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <title>{% block title %} Petzi Webhook {% endblock %}</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+{% extends "asset.html" %}
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0/dist/css/tabler.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0/dist/js/tabler.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0/dist/css/tabler-flags.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0/dist/css/tabler-payments.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0/dist/css/tabler-vendors.min.css">
-
-</head>
-<body>
+{% block body %}
 <div class="container-fluid">
     <div class="row flex-nowrap">
         <!-- Sidebar Content -->
@@ -76,5 +63,4 @@
 
     </div>
 </div>
-</body>
-</html>
+{% endblock %}
