@@ -6,8 +6,7 @@ from persistence.database import Database
 
 def export_tables_to_csv(event_id):
     """Fetch tables data based on the event_id and return as CSV string."""
-
-    # Define the SQL query to join all tables
+    # Define the SQL query with a join to all ticket's data related tables
     query = """
         SELECT 
             t.number AS ticket_number,
@@ -41,10 +40,8 @@ def export_tables_to_csv(event_id):
         WHERE e.event_id = %s
         """
 
-    # Connect to the database
     with Database.get_db_connection() as conn:
         with conn.cursor() as cur:
-            # Execute the query
             cur.execute(query, (event_id,))
             rows = cur.fetchall()
 

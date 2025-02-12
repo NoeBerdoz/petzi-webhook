@@ -1,3 +1,9 @@
+{#
+    Template: Base dashboard layout
+
+    Includes a sidebar menu for navigation and a main content area where specific pages are rendered.
+    Dynamically highlights the active menu item based on the current route.
+#}
 {% extends "asset.html" %}
 
 {% block body %}
@@ -57,7 +63,7 @@
         <!-- Main Content -->
         <div class="col py-3">
             {% block content %}
-                <!-- Dynamic content will be inserted here -->
+                {# Dynamic content will be inserted here #}
             {% endblock %}
         </div>
 

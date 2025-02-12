@@ -3,10 +3,11 @@ from flask import render_template, request, redirect, url_for, session, flash, B
 from werkzeug.security import generate_password_hash, check_password_hash
 from persistence.database import Database
 
+
 auth_blueprint = Blueprint('auth', __name__, url_prefix='/auth')
 
-# Helper function to check if a user is logged in
 def login_required(f):
+    """ Helper function to check if a user is logged in """
     def wrapper(*args, **kwargs):
         if 'user_id' not in session:
             flash('You need to log in first.', 'error')
@@ -15,9 +16,10 @@ def login_required(f):
     wrapper.__name__ = f.__name__
     return wrapper
 
-# Login route
+
 @auth_blueprint.route('/login', methods=['GET', 'POST'])
 def login():
+    """ Login a user and adds user_id and username key-values in the session dict """
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -37,15 +39,14 @@ def login():
 
     return render_template('login.html')
 
-# Logout route
+
 @auth_blueprint.route('/logout')
 def logout():
     session.pop('user_id', None)
-    flash('Logged out successfully!', 'success')
+    flash('Déconnecté avec succès !', 'success')
     return redirect(url_for('auth.login'))
 
 
-# Register route (optional)
 @auth_blueprint.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -59,10 +60,11 @@ def register():
                 cur.execute("INSERT INTO users (username, password) VALUES (%s, %s);", (username, hashed_password))
                 conn.commit()
 
-        flash('Registration successful! Please log in.', 'success')
+        flash('Compte créé avec succès ! Merci de te connecter.', 'success')
         return redirect(url_for('auth.login'))
 
     return render_template('register.html')
+
 
 @auth_blueprint.route('/settings', methods=['GET', 'POST'])
 @login_required  # Ensure the user is logged in
@@ -92,9 +94,9 @@ def change_password():
                     cur.execute("UPDATE users SET password = %s WHERE id = %s;", (hashed_password, session['user_id']))
                     conn.commit()
 
-                    flash('Password changed successfully!', 'success')
+                    flash('Mot de passe modifié avec succès !', 'success')
                     return redirect(url_for('auth.change_password'))
                 else:
-                    flash('Current password is incorrect.', 'error')
+                    flash('Le mot de passe actuel donné est incorrect.', 'error')
 
     return render_template('change_password.html', title="Paramètres utilisateurs")

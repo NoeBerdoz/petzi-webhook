@@ -8,8 +8,8 @@ from persistence.database import Database
 from routes.auth import login_required
 from service.charts import load_last_days_ticket_chart_data
 
-dashboard_blueprint = Blueprint('dashboard', __name__, url_prefix='/dashboard')
 
+dashboard_blueprint = Blueprint('dashboard', __name__, url_prefix='/dashboard')
 
 @dashboard_blueprint.route('/home')
 @login_required
@@ -137,5 +137,3 @@ def update_settings():
         return jsonify({"success": True, "message": "Paramètre mis à jour avec succès."})
     else:
         return jsonify({"success": False, "message": "Une erreur est survenue."})
-
-    return redirect(url_for('dashboard.get_settings'))

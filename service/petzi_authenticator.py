@@ -9,6 +9,7 @@ class PetziAuthenticator:
         self.shared_petzi_secret = None
 
     def get_shared_secret(self):
+        """ Return the petzi secret value in the database. """
         if self.shared_petzi_secret is None:
             with Database.get_db_connection() as conn:
                 with conn.cursor() as cur:
@@ -22,10 +23,18 @@ class PetziAuthenticator:
 
 
     def verify_signature(self, request):
-        if self.shared_petzi_secret is None: # I'm rushing
+        """
+        Verifies the Petzi-Signature header in the incoming request.
+
+        It extracts the timestamp and signature and recomputes the signature using the shared secret,
+        It then compares it with the provided signature.
+        It returns a matching boolean value of the comparison of the given signature and the recomputed signature.
+
+        Note: This was made in a rush
+        """
+        if self.shared_petzi_secret is None:
             self.get_shared_secret()
 
-        """ Verify the Petzi-Signature header. """
         signature_header = request.headers.get('Petzi-Signature')
         if not signature_header:
             return False

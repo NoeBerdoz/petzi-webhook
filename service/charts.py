@@ -1,6 +1,8 @@
 from persistence.database import Database
 
+
 def load_last_days_ticket_chart_data(days=7):
+    """ Return ticket data from the last number of given days in a ChartApex adapted format """
     with Database.get_db_connection() as conn:
         with conn.cursor() as cur:
             # Fetch ticket sales per month
