@@ -14,10 +14,10 @@ class Database:
             "dbname": os.getenv("DB_NAME", "petzi"),
             "user": os.getenv("DB_USER", "petzi"),
             "password": os.getenv("DB_PASS", "petzi"),
-            # FOR LOCALHOST HOST :
-            "host": os.getenv("DB_HOST", "localhost"),
+            # FOR LOCALHOST HOST, if you want to run flask on your machine instead of the container :
+            # "host": os.getenv("DB_HOST", "localhost"),
             # FOR DOCKER :
-            # "host": os.getenv("DB_HOST", "db"),
+            "host": os.getenv("DB_HOST", "db"),
             "port": os.getenv("DB_PORT", "5433"),
         }
         return cls._instance
