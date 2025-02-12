@@ -10,7 +10,7 @@ def login_required(f):
     """ Helper function to check if a user is logged in """
     def wrapper(*args, **kwargs):
         if 'user_id' not in session:
-            flash('You need to log in first.', 'error')
+            flash('Vous devez d\'abord vous connecter.', 'error')
             return redirect(url_for('auth.login'))
         return f(*args, **kwargs)
     wrapper.__name__ = f.__name__
@@ -32,10 +32,10 @@ def login():
                 if user and check_password_hash(user['password'], password):
                     session['user_id'] = user['id']
                     session['username'] = username
-                    flash('Logged in successfully!', 'success')
+                    flash('Connecté avec succès !', 'success')
                     return redirect(url_for('dashboard.get_home'))
                 else:
-                    flash('Invalid username or password.', 'error')
+                    flash('Mot de passe ou nom d\'utilisateur invalide.', 'error')
 
     return render_template('login.html')
 
@@ -60,7 +60,7 @@ def register():
                 cur.execute("INSERT INTO users (username, password) VALUES (%s, %s);", (username, hashed_password))
                 conn.commit()
 
-        flash('Compte créé avec succès ! Merci de te connecter.', 'success')
+        flash('Compte créé avec succès ! Merci de vous connecter.', 'success')
         return redirect(url_for('auth.login'))
 
     return render_template('register.html')
