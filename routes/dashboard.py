@@ -128,8 +128,8 @@ def update_settings():
         conn.commit()
 
     if updated:
-        return jsonify({"success": True, "message": "Settings updated successfully!"})
+        return jsonify({"success": True, "message": "Paramètre mis à jour avec succès."})
     else:
-        return jsonify({"success": False, "message": "No changes were made."})
+        return jsonify({"success": False, "message": "Une erreur est survenue."})
 
     return redirect(url_for('dashboard.get_settings'))
