@@ -4,11 +4,19 @@ from persistence.database import Database
 from service.csv_export import export_tables_to_csv
 from service.petzi_webhook_handler import insert_ticket
 
+
 api_blueprint = Blueprint('api', __name__)
 
 @api_blueprint.route("/insert", methods=["POST"])
 def insert_message():
-    return insert_ticket(request)
+    """ Entry point for the Petzi webhook """
+    if insert_ticket(request) is True:
+        return jsonify({"message": "Data insert successfully"}), 200
+    else:
+        # TODO handle the failed logic
+        # Should we send an other response then 200 to Petzi? Let's not get blacklisted...
+        return jsonify({"message": "Data insert failed"}), 200
+
 
 @api_blueprint.route('/chart/tickets/<int:event_id>', methods=['GET'])
 def get_tickets_by_event(event_id):
@@ -47,6 +55,7 @@ def get_tickets_by_event(event_id):
 
 @api_blueprint.route('/download_csv')
 def download_db_csv():
+    """ Returns a CSV file containing all tickets information related to the given event_id """
     # query parameter in the URL, e.g., /download_csv?event_id=123.
     event_id = request.args.get('event_id')
 
@@ -66,7 +75,9 @@ def download_db_csv():
 ###############################################################################
 #                               GET API ROUTES                                #
 ###############################################################################
-# This routes where made in a fast and dirty way
+
+# NOTE: This routes where made in a fast and dirty way
+# TODO add an api authentication system
 
 @api_blueprint.route('/buyers', methods=['GET'])
 def get_buyers():
@@ -99,7 +110,7 @@ def get_sessions():
 
 
 def fetch_table_data(query, params=None):
-    """Fetch data from the database and return as JSON."""
+    """ Fetch data from the database and return as JSON. """
     try:
         with Database.get_db_connection() as conn:
             with conn.cursor() as cur:

@@ -19,7 +19,8 @@ def is_existing_event(event_id):
 def insert_ticket(request):
     """
         Insert webhook related data in one shot.
-        TODO divide this part per table concerned.
+        Return True if insertion was successful, else False.
+        TODO divide this part per table concerned to make it cleaner.
     """
     if petzi_authenticator.verify_signature(request) is False:
         return False
@@ -73,4 +74,4 @@ def insert_ticket(request):
 
             conn.commit()
 
-    return jsonify({"message": "Data insert successfully"}), 200
+            return True
