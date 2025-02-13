@@ -124,6 +124,49 @@ in the application.
 - **Description:** Updates system settings if changes are detected.  
 - **Response:** `{"success": true, "message": "Paramètre mis à jour avec succès."}` on success, otherwise `{"success": false, "message": "Une erreur est survenue."}`.  
 
+## Screenshots of the app
+
+**_Dashboard Home page_**
+lets the user choose an event in the database and dump a csv with all the related tickets from it.
+![image](https://github.com/user-attachments/assets/abce3008-487f-46e8-a3b1-e35d5c3404d7)
+
+**_Dashboard Tickets page_**
+Table view of the incoming tickets.
+![image](https://github.com/user-attachments/assets/647872a0-780a-4b84-9626-eb9b368506c1)
+Lazy-loaded navigation.
+![image](https://github.com/user-attachments/assets/82f0a2b7-a711-4ca6-a01d-ec3bced626a8)
+Tickets selling performance in the last 7 days.
+![image](https://github.com/user-attachments/assets/eede1a70-bfa2-4184-9727-0f5463ef5669)
+
+**_Dashboard Events page_**
+Table view of the events.
+![image](https://github.com/user-attachments/assets/50ad973f-77ef-45db-9354-242516213264)
+The user can choose an event to analyze its tickets selling performance.
+![image](https://github.com/user-attachments/assets/dbd1cffa-ec0b-487b-a4be-73f7fb24ec9a)
+
+**_Dashboard Settings page_**
+The user can change the settings present in the database table `web_config`.
+He can set up the shared secret with the Petzi webhook service.
+![image](https://github.com/user-attachments/assets/edd73352-d532-4ef3-a2ec-0b07a3402d7b)
+
+**_Login page_**
+![image](https://github.com/user-attachments/assets/088e58ce-20a6-40ca-9daa-89fc559af1ef)
+
+**_Register page_**
+![image](https://github.com/user-attachments/assets/b33a54c4-2339-4f8a-b94f-1c67d2830802)
+
+**_Logged-in user menu_**
+Lets the user Log out or go to the user settings page.
+![image](https://github.com/user-attachments/assets/30d66f76-ee38-46db-bd50-9f7ac58c2977)
+
+**_User settings page_**
+Lets the user change his password.
+![image](https://github.com/user-attachments/assets/8e6e3192-4696-48e3-9d6f-297b4bcd5cc4)
+
+**_Interactions feedbacks_**
+![image](https://github.com/user-attachments/assets/17f53dc6-099e-42db-bc0f-0d59fbc5e557)
+![image](https://github.com/user-attachments/assets/d4e6ddbc-c4a9-4b4f-aede-c6f8fcd3e5c5)
+![image](https://github.com/user-attachments/assets/4253da72-27aa-45ad-8a2a-6799b361a214)
 
 ## What is Petzi?
 [Petzi](https://www.petzi.ch/) is the Swiss federation of music venues and festivals.
@@ -132,6 +175,15 @@ It offers a ticketing service that includes an integrated webhook system.
 This webhook sends a JSON payload containing information about purchased tickets to a specified URL,
 allowing event organizers to process ticket data in real-time. 
 
-## Screenshots of the app
 
-TODO
+
+
+
+
+
+
+
+
+
+
+
