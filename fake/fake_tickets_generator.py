@@ -68,11 +68,23 @@ def generate_dummy_tickets(num_tickets=100):
 
     tickets = []
 
+    # Define peak periods (e.g., specific days or hours with higher ticket sales)
+    peak_periods = [
+        datetime(2025, 2, 5, 18, 0),  # Peak on February 5th at 6 PM
+        datetime(2025, 2, 10, 20, 0),  # Peak on February 10th at 8 PM
+    ]
+
     for _ in range(num_tickets):
         event = random.choice(events)
         location = random.choice(locations)
         ticket_number = f"{random.randint(1000, 9999)}{random.choice('ABCDEFGHJKLMNPQRSTUVWXYZ')}{random.randint(1000, 9999)}"
-        generated_at = random_date(start_date, end_date).isoformat()
+
+        # Simulate peaks of ticket sales
+        if random.random() < 0.2:  # 20% chance of generating a ticket during a peak period
+            peak_time = random.choice(peak_periods)
+            generated_at = peak_time + timedelta(minutes=random.randint(-60, 60))  # Add some randomness
+        else:
+            generated_at = random_date(start_date, end_date)  # Normal ticket generation
 
         ticket_data = {
             "event": "ticket_created",
@@ -85,12 +97,12 @@ def generate_dummy_tickets(num_tickets=100):
                     "eventId": event_id_mapping[event],
                     "event": event,
                     "cancellationReason": "",
-                    "generatedAt": generated_at,
+                    "generatedAt": generated_at.isoformat(),
                     "sessions": [
                         {
                             "name": event,
-                            "date": generated_at.split("T")[0],
-                            "time": f"{random.randint(10, 23)}:00:00",
+                            "date": generated_at.strftime("%Y-%m-%d"),
+                            "time": generated_at.strftime("%H:%M:%S"),
                             "doors": f"{random.randint(8, 22)}:00:00",
                             "location": location
                         }
