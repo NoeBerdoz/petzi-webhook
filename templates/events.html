@@ -77,9 +77,10 @@
             <label class="form-label" for="event-search">Choisir un événement :</label>
             <input type="text" class="form-control" id="event-search" list="event-list"
                    placeholder="Nom de l'événement..."/>
+            <input type="hidden" id="event-id"/> <!-- Hidden input to store event_id -->
             <datalist id="event-list">
                 {% for event in events %}
-                    <option value="{{ event.event_id }}">{{ event.name }}</option>
+                    <option data-id="{{ event.event_id }}" value="{{ event.name }}"></option>
                 {% endfor %}
             </datalist>
         </div>
@@ -146,9 +147,24 @@
 
         // Event listener for the "Apply Filter" button
         document.getElementById('apply-filter').addEventListener('click', function () {
-            const selectedEventId = document.getElementById('event-search').value;
+            const selectedEventId = document.getElementById('event-id').value;
             if (selectedEventId) {
                 updateChart(selectedEventId);
+            }
+        });
+
+        // Event listener for the event search input
+        document.getElementById('event-search').addEventListener('input', function () {
+            const selectedEventName = this.value;
+            const eventList = document.getElementById('event-list').options;
+
+            // Find the selected event in the datalist
+            for (let option of eventList) {
+                if (option.value === selectedEventName) {
+                    // Update the hidden event-id field
+                    document.getElementById('event-id').value = option.getAttribute('data-id');
+                    break;
+                }
             }
         });
     </script>
