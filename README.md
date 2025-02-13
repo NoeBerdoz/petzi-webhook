@@ -48,6 +48,9 @@ http://localhost:5000/auth/register
 
 There create an account, and login, then you are good to go.
 
+### 3. (Optional) Add samples data
+Execute the python script [fake_tickets_generator.py](fake/fake_tickets_generator.py) to add fake data.
+
 ## API Endpoints
 These routes can be use to add or retrieve data
 from the server.

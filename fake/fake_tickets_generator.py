@@ -7,6 +7,7 @@
 #       num_tickets = 3000
 # Don't forget to set the correct petzi secret shared with the server
 #       secret = "coucou"
+# After setting this variables, just launch the script.
 #
 import hmac
 import requests
