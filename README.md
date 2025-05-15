@@ -160,19 +160,19 @@ The user can change the settings present in the database table `web_config`.
 He can set up the shared secret with the Petzi webhook service.
 ![image](https://github.com/user-attachments/assets/edd73352-d532-4ef3-a2ec-0b07a3402d7b)
 
-**_Login page_**
-![image](https://github.com/user-attachments/assets/088e58ce-20a6-40ca-9daa-89fc559af1ef)
+**_Login page_**  
+![image](https://github.com/user-attachments/assets/c0a5686b-bfc5-4fbf-94df-fca483071fc1)
 
 **_Register page_**
 ![image](https://github.com/user-attachments/assets/b33a54c4-2339-4f8a-b94f-1c67d2830802)
 
 **_Logged-in user menu_**
-Lets the user Log out or go to the user settings page.
-![image](https://github.com/user-attachments/assets/30d66f76-ee38-46db-bd50-9f7ac58c2977)
+Lets the user Log out or go to the user settings page.  
+![image](https://github.com/user-attachments/assets/2271f931-54e4-462a-9d50-240d9358c022)
 
 **_User settings page_**
 Lets the user change his password.
-![image](https://github.com/user-attachments/assets/8e6e3192-4696-48e3-9d6f-297b4bcd5cc4)
+![image](https://github.com/user-attachments/assets/66ce1341-0200-4df4-8e9b-847d4ff1b54c)
 
 **_Interactions feedbacks_**
 ![image](https://github.com/user-attachments/assets/17f53dc6-099e-42db-bc0f-0d59fbc5e557)
